@@ -9,13 +9,6 @@ bool v[N]; //feldolgozott csomopontok
 int d[N]; //tavolsag vektor, minden csomopont tavolsaga a start csomopont
 int p[N]; //szulo(parent) vektor, minden csomopont tavolsaga a start csomopont
 
-struct fokszam {
-    int be;
-    int ki;
-};
-
-fokszam fokszamok[N];
-
 //Beolvassa a csomopontok szamat es az elek listajat
 //felepit egy adjacencia(szomszedsagi) matrixot)
 //visszateriti a csomopontok szamat
@@ -55,6 +48,7 @@ void kiIr(int graf[][N], int n)
 
 int gyengenOsszeuggoKomponensekSzama(int graf[][N], int n)
 {
+    //todo
     return 0;
 }
 
@@ -118,22 +112,6 @@ bool erosenOsszefuggo(int graf[][N], int n)
     return true;
 }
 
-void feltoltFokszamok(int graf[][N], int n)
-{
-    for(int i = 0; i < n; i++)
-    {
-        fokszamok[i].ki = 0;
-        fokszamok[i].be = 0;
-        for(int j = 0; j < n; j++)
-        {
-            if(graf[i][j])
-                fokszamok[i].ki++;
-            if(graf[j][i])
-                fokszamok[i].be++;
-        }
-    }
-}
-
 int main()
 {
     int graf[N][N] = {0};
@@ -143,10 +121,5 @@ int main()
     kiIr(graf, n);
     cout << "erosen osszefuggo komponensek szama ";
     cout << erosenOsszefuggoKomponensekSzama(graf, n) << endl;
-    feltoltFokszamok(graf, n);
-    for(int i = 0; i < n; i++)
-    {
-        cout << i << " be: " << fokszamok[i].be << " ki: " << fokszamok[i].ki << endl;
-    }
     return 0;
 }

@@ -6,10 +6,6 @@
 
 using namespace std;
 
-bool v[N]; //feldolgozott csomopontok
-int d[N]; //tavolsag vektor, minden csomopont tavolsaga a start csomopont
-int p[N]; //szulo(parent) vektor, minden csomopont tavolsaga a start csomopont
-
 //Beolvassa a csomopontok szamat es az elek listajat
 //felepit egy adjacencia(szomszedsagi) matrixot)
 //visszateriti a csomopontok szamat

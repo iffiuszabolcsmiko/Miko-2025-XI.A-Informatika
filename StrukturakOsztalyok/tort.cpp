@@ -24,7 +24,6 @@ int lnko(int a, int b)
         int maradek = a % b;
         a = b;
         b = maradek;
-
     }
     return mod(a);
 }
@@ -35,7 +34,6 @@ Tort egyszerusit(Tort a)
     a.nevezo = a.nevezo / lnk;
     a.szamlalo = a.szamlalo / lnk;
     return a;
-
 }
 
 Tort szorzas(Tort a, Tort b)

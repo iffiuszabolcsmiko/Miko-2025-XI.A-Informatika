@@ -7,12 +7,13 @@ private:
     int szamlalo;
     int nevezo;
 
-    int mod(int x){
+    static int mod(int x)
+    {
         if(x < 0) return -x;
         else return x;
     }
-
-    int lnko(int a, int b)
+    //legnagyobb kozos oszto
+    static int lnko(int a, int b)
     {
         while(b != 0)
         {
@@ -22,47 +23,60 @@ private:
         }
         return mod(a);
     }
-
     void egyszerusit()
     {
-        int lnk = lnko(this->nevezo, this->szamlalo);
-        this->nevezo = this->nevezo / lnk;
-        this->szamlalo = this->szamlalo / lnk;
-    }
+        int oszto = lnko(szamlalo, nevezo);
+        szamlalo /= oszto;
+        nevezo /= oszto;
 
+        if(nevezo < 0) {
+            szamlalo = -szamlalo;
+            nevezo = -nevezo;
+        }
+    }
 public:
-
-    Tort() {
-        this->szamlalo = 0;
-        this->nevezo = 1;
+    //Konstruktorok
+    Tort()
+    {
+        szamlalo = 0;
+        nevezo = 1;
     }
-    Tort(int szamlalo) {
+    Tort(int szamlalo)
+    {
         this->szamlalo = szamlalo;
         this->nevezo = 1;
     }
-    Tort(int szamlalo, int nevezo) {
+    Tort(int szamlalo, int nevezo)
+    {
+        //hiba
+        if(nevezo == 0)
+            nevezo = 1;
         this->szamlalo = szamlalo;
         this->nevezo = nevezo;
+        this->egyszerusit();
     }
-
-    void setSzamlalo(int szamlalo){
+    //getter setter metodusok
+    void setSzamlalo(int szamlalo)
+    {
         this->szamlalo = szamlalo;
     }
-    int getSzamlalo(){
+    int getSzamlalo() const
+    {
         return szamlalo;
     }
-    void setNevezo(int nevezo){
+    void setNevezo(int nevezo)
+    {
         this->nevezo = nevezo;
     }
-    int getNevezo(){
+    int getNevezo() const
+    {
         return nevezo;
     }
-
-    void kiir()
+    void kiir() const
     {
         cout << this->szamlalo << "/" << this->nevezo << endl;
     }
-
+    //muveletek
     Tort szorzas(Tort b)
     {
         Tort c;
@@ -71,7 +85,6 @@ public:
         c.egyszerusit();
         return c;
     }
-
     Tort osztas(Tort b)
     {
         Tort c;
@@ -80,7 +93,6 @@ public:
         c.egyszerusit();
         return c;
     }
-
     Tort osszeadas(Tort b)
     {
         Tort c;
@@ -89,7 +101,6 @@ public:
         c.egyszerusit();
         return c;
     }
-
     Tort kivonas(Tort b)
     {
         Tort c;
@@ -98,9 +109,8 @@ public:
         c.egyszerusit();
         return c;
     }
-
-    // Overload + operator
-    Tort operator+(const Tort &t)
+    //operator tulterhelesek
+    Tort operator+(const Tort &t) const
     {
         Tort c;
         c.szamlalo = this->szamlalo * t.nevezo + t.szamlalo * this->nevezo;
@@ -108,8 +118,7 @@ public:
         c.egyszerusit();
         return c;
     }
-    // Overload - operator
-    Tort operator-(const Tort &t)
+    Tort operator-(const Tort &t) const
     {
         Tort c;
         c.szamlalo = this->szamlalo * t.nevezo - t.szamlalo * this->nevezo;
@@ -117,8 +126,7 @@ public:
         c.egyszerusit();
         return c;
     }
-    // Overload * operator
-    Tort operator*(const Tort &t)
+    Tort operator*(const Tort &t) const
     {
         Tort c;
         c.szamlalo = this->szamlalo * t.szamlalo;
@@ -126,8 +134,7 @@ public:
         c.egyszerusit();
         return c;
     }
-    // Overload / operator
-    Tort operator/(const Tort &t)
+    Tort operator/(const Tort &t) const
     {
         Tort c;
         c.szamlalo = this->szamlalo * t.nevezo;
@@ -135,28 +142,52 @@ public:
         c.egyszerusit();
         return c;
     }
+    //osszehasonlitas operatorok tulterhelese
+    bool operator<(const Tort &t) const
+    {
+        return this->szamlalo * t.nevezo < t.szamlalo * this->nevezo;
+    }
+    bool operator>(const Tort &t) const
+    {
+        return this->szamlalo * t.nevezo > t.szamlalo * this->nevezo;
+    }
+    bool operator<=(const Tort &t) const
+    {
+        return this->szamlalo * t.nevezo <= t.szamlalo * this->nevezo;
+    }
+    bool operator>=(const Tort &t) const
+    {
+        return this->szamlalo * t.nevezo >= t.szamlalo * this->nevezo;
+    }
+    bool operator==(const Tort &t) const
+    {
+        return this->szamlalo == t.szamlalo && this->nevezo == t.nevezo;
+    }
+    bool operator!=(const Tort &t) const
+    {
+        return this->szamlalo != t.szamlalo || this->nevezo != t.nevezo;
+    }
 
-    // Overload << and >> as friend functions
+    // Overload << and >> operators as friend functions
     friend ostream &operator<<(ostream &out, const Tort &t);
     friend istream &operator>>(istream &in, Tort &t);
-
 };
-
 // Overload << for output
 ostream &operator<<(ostream &out, const Tort &t)
 {
     out << t.szamlalo << "/" << t.nevezo;
     return out;
 }
-
 // Overload >> for input
 istream &operator>>(istream &in, Tort &t)
 {
     in >> t.szamlalo >> t.nevezo;
+    //hiba
+    if(t.nevezo == 0)
+        t.nevezo = 1;
+    t.egyszerusit();
     return in;
 }
-
-
 int main()
 {
     Tort a(2, 3);
@@ -182,6 +213,20 @@ int main()
 
     cout << "operatorokkal:" << endl;
 
-    cout << a + b << endl << a - b << endl << a * b << endl << a / b << endl;
+    cout << a << " + " << b  << " = " << a + b << endl;
+    cout << a << " - " << b  << " = " << a - b << endl;
+    cout << a << " * " << b  << " = " << a * b << endl;
+    cout << a << " / " << b  << " = " << a / b << endl;
+
+    if(a < b)
+        cout << a << " a kisebb" << endl;
+    else
+        cout << b << " a kisebb" << endl;
+
+    if(a == b)
+        cout << "egyenlo" << endl;
+    else
+        cout << "NEM egyenlo" << endl;
+
     return 0;
 }

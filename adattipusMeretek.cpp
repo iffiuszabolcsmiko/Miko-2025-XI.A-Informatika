@@ -2,12 +2,19 @@
 #include <bitset>
 
 using namespace std;
-
+/*
+0   x      (4 byte)
+4   x2     (4 byte)
+8   y      (2 byte)
+10  c      (1 byte)
+11  padding (1 byte)
+4 + 4 + 2 + 1 + 1 = 12 byte
+*/
 struct valami{
-    int x;
-    int x2;
-    short y;
-    char c;
+    int x;     // 4 byte
+    int x2;    // 4 byte
+    short y;   // 2 byte
+    char c;    // 1 byte
 };
 
 //gyors egesz kitevoju hatvanyozas
@@ -66,20 +73,20 @@ int main(){
     char *pchar = &c;
     bool *pbool = &b;
 
-    cout << "pint " << sizeof(pint) << endl;
-    cout << "pchar " << sizeof(pchar) << endl;
-    cout << "pbool " << sizeof(pbool) << endl;
+    cout << "pointer int " << sizeof(pint) << " byte" << endl;
+    cout << "pointer char " << sizeof(pchar) << " byte" << endl;
+    cout << "pointer bool " << sizeof(pbool) << " byte" << endl;
 
     valami v;
     valami *pvstruct = &v;
     valami &rstruct = v;
 
     cout << "struct " << sizeof(v) << " byte" << endl;
-    cout << "pstruct " << sizeof(pvstruct) << " byte" << endl;
-    cout << "rstruct " << sizeof(rstruct) << " byte" << endl;
-    cout << pvstruct << endl;
-    cout << pint << endl;
-    cout << pchar << endl;
+    cout << "pointer struct " << sizeof(pvstruct) << " byte" << endl;
+    cout << "reference struct " << sizeof(rstruct) << " byte" << endl;
+    cout << "pointer struct erteke " << pvstruct << endl;
+    cout << "pointer int erteke " << pint << endl;
+    cout << "pointer char erteke " << (void *)pchar << endl;
 
     return 0;
 }

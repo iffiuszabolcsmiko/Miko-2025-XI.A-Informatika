@@ -43,6 +43,7 @@ void stringConcatenate(char source[], char dest[])
         dest++;
         source++;
     }
+    *dest = 0;
 }
 
 void toppercase(char s[])//kis betubol nagyot csinal

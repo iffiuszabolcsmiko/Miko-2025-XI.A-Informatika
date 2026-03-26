@@ -35,7 +35,7 @@ void stringConcatenate(char source[], char dest[])
     while(*dest!=0)
     {
         dest++;
-    }//amikor eleri a ,most jelenleg a 'szia' esteben, az 5. betut akkor kezdi utana masolni a source-ot
+    }
 
     while(*source!=0)
     {

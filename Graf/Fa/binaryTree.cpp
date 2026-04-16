@@ -13,12 +13,18 @@ struct TreeNode {
         this -> left = 0;
         this -> right = 0;
     }
-
     TreeNode(int data, TreeNode *left, TreeNode *right)
     {
         this -> data = data;
         this -> left = left;
         this -> right = right;
+    }
+    ~TreeNode()
+    {
+        if(left)
+            delete left;
+        if(right)
+            delete right;
     }
 };
 
@@ -49,8 +55,36 @@ void postorder(TreeNode *root)
     cout << root -> data << " ";
 }
 
+void printTree(TreeNode* node, string prefix = "", bool isLast = true, bool isRoot = true)
+{
+    if(!node) return;
+
+    cout << prefix;
+
+    if(!isRoot)
+        cout << (isLast ? "\xc0\xc4\xc4" : "\xc3\xc4\xc4");
+
+    cout << node->data << endl;
+
+    if(!isRoot)
+        prefix += (isLast ? "   " : "\xb3  ");
+
+    //bal gyerek (ha van jobb akkor nem utolso, nem gyoker)
+    if(node->left)
+        printTree(node->left, prefix, node->right == nullptr, false);
+
+    //jobb gyerek (utolso, nem gyoker)
+    if(node->right)
+        printTree(node->right, prefix, true, false);
+}
+
 int main()
 {
+    /*
+    for(unsigned char c = 0; c < 255; c++)
+        cout << hex << (int)c << ": " << c << endl;
+    */
+
     TreeNode *root;
     root = new TreeNode(1,
         new TreeNode(2,
@@ -60,11 +94,16 @@ int main()
             new TreeNode(6),
             new TreeNode(7)));
 
+    cout << "Tree structure:" << endl;
+    printTree(root);
+
     cout << endl << "Preorder:" << endl;
     preorder(root);
     cout << endl << "Inorder:" << endl;
     inorder(root);
     cout << endl << "Postorder:" << endl;
     postorder(root);
+
+    delete root;
     return 0;
 }

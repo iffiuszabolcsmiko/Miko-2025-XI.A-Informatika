@@ -62,6 +62,32 @@ void kiir()
     cout << endl;
 }
 
+void printHeap(int i = 0, string prefix = "", bool isLast = true, bool isRoot = true)
+{
+    if(i >= n) return;
+
+    cout << prefix;
+
+    if(!isRoot)
+        cout << (isLast ? "\xc0\xc4\xc4" : "\xc3\xc4\xc4");
+
+    cout << maxHeap[i] << endl;
+
+    if(!isRoot)
+        prefix += (isLast ? "   " : "\xb3  ");
+
+    int left = 2 * i;
+    int right = 2 * i + 1;
+
+    // bal gyerek
+    if(left < n)
+        printHeap(left, prefix, right >= n, false);
+
+    // jobb gyerek
+    if(right < n)
+        printHeap(right, prefix, true, false);
+}
+
 void feltolt()
 {
     for(int i = 1; i <= 10; i++)

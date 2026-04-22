@@ -9,6 +9,7 @@ int n = 0;
 
 void kupacolFel(int k)
 {
+    if(k < 0 || k >= n) return;
     int szulo = (k - 1) / 2;
     while(kupac[k] > kupac[szulo])
     {
@@ -18,11 +19,86 @@ void kupacolFel(int k)
     }
 }
 
+/*void kupacolLe2(int k)
+{
+    if(k < 0 || k >= n) return;
+    int bal = 2 * k + 1;
+    int jobb = 2 * k + 2;
+    int nagyobb = k;
+
+    if(bal < n && kupac[nagyobb] < kupac[bal])
+        nagyobb = bal;
+    }
+
+    if(jobb < n && kupac[nagyobb] < kupac[jobb])
+        nagyobb = jobb;
+    }
+
+    while(kupac[k] > kupac[nagyobb])
+    {
+        swap(kupac[k], kupac[nagyobb]);
+        k = nagyobb;
+        bal = 2 * k + 1;
+        jobb = 2 * k + 2;
+        nagyobb = k;
+
+        if(bal < n && kupac[nagyobb] < kupac[bal])
+            nagyobb = bal;
+        }
+
+        if(jobb < n && kupac[nagyobb] < kupac[jobb])
+            nagyobb = jobb;
+        }
+    }
+}*/
+
+void kupacolLe(int k)
+{
+    if(k < 0 || k >= n) return;
+    while(true)
+    {
+        int bal = 2 * k + 1;
+        int jobb = 2 * k + 2;
+        int nagyobb = k;
+
+        if(bal < n && kupac[nagyobb] < kupac[bal])
+            nagyobb = bal;
+
+        if(jobb < n && kupac[nagyobb] < kupac[jobb])
+            nagyobb = jobb;
+
+        if(kupac[k] >= kupac[nagyobb])
+            break;
+
+        swap(kupac[k], kupac[nagyobb]);
+        k = nagyobb;
+    }
+}
+
 void beszur(int x)
 {
     kupac[n] = x;
-    kupacolFel(n);
     n++;
+    kupacolFel(n - 1);
+}
+
+void felulIr(int k, int x)
+{
+    if(k < 0 || k >= n) return;
+    kupac[k] = x;
+    int szulo = (k - 1) / 2;
+    if(kupac[k] > kupac[szulo]){
+        kupacolFel(k);
+    }else{
+        kupacolLe(k);
+    }
+}
+
+void torol(int k)
+{
+    if(k < 0 || k >= n) return;
+    n--;
+    felulIr(k, kupac[n]);
 }
 
 void printHeap(int i = 0, string prefix = "", bool isLast = true, bool isRoot = true)
@@ -34,7 +110,7 @@ void printHeap(int i = 0, string prefix = "", bool isLast = true, bool isRoot = 
     if(!isRoot)
         cout << (isLast ? "\xc0\xc4\xc4" : "\xc3\xc4\xc4");
 
-    cout << kupac[i] << endl;
+    cout << kupac[i] << "(" << i << ")" << endl;
 
     if(!isRoot)
         prefix += (isLast ? "   " : "\xb3  ");
@@ -58,5 +134,11 @@ int main()
         beszur(x);
         printHeap();
     }
+    cout << "felulirjuk a 3. indexen levo elemet 95 ertekkel" << endl;
+    felulIr(3, 95);
+    printHeap();
+    cout << "toroljuk az a 1. indexen levo elemet" << endl;
+    torol(1);
+    printHeap();
     return 0;
 }

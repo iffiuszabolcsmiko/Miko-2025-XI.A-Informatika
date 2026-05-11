@@ -104,9 +104,46 @@ public:
         cout << endl;
     }
 
-    void kiirFa(){
+    void kiirFa()
+    {
         printTree(root);
         cout << endl;
+    }
+
+    TreeNode *keres(int elem)
+    {
+        TreeNode*p = root;
+        while(p != 0 && p->adat != elem)
+        {
+            if(p->adat < elem) p = p->right;
+            else p = p->left;
+        }
+        return p;
+    }
+
+    int minimum()
+    {
+        TreeNode *p = root;
+        while(p != 0 && p->left != 0)
+        {
+            p = p->left;
+        }
+        if(p == 0)
+            return 0;
+        else
+            return p->adat;
+    }
+    int maximum()
+    {
+        TreeNode *p = root;
+        while(p != 0 && p->right != 0)
+        {
+            p = p->right;
+        }
+        if(p == 0)
+            return 0;
+        else
+            return p->adat;
     }
 };
 
@@ -116,11 +153,14 @@ int main()
 
     KeresoFa a;
     for(int i = 0; i < 15; i++){
-        a.beszur(rand()%100);
+        a.beszur(rand() % 100);
     }
+    a.beszur(42);
 
     a.kiir();
     a.kiirFa();
-
+    cout << "Keres 42: " << a.keres(42) << endl;
+    cout << "Min: " << a.minimum() << endl;
+    cout << "Max: " << a.maximum() << endl;
     return 0;
 }

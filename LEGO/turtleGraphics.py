@@ -69,5 +69,8 @@ async def execute(commands):
 # --- FŐ PROGRAM ---
 async def main():
     await execute("D+D+D+D")
+    #while True:
+     #   print(motion_sensor.tilt_angles())
+      #  await runloop.sleep_ms(500)
 
 runloop.run(main())
